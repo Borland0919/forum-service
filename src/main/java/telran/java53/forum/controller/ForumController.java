@@ -1,5 +1,6 @@
 package telran.java53.forum.controller;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,14 +61,14 @@ public class ForumController {
 		return forumService.deletePost(postId);
 	}
 
-	@PostMapping("/posts/tags")
-	public Iterable<PostDto> findPostsByTags(@RequestBody Set<String> tags) {
-		return forumService.findPostsByTags(tags);
+	@GetMapping("/posts/tags")
+	public Iterable<PostDto> findPostsByTags(@RequestParam Set<String> values) {
+		return forumService.findPostsByTags(values);
 	}
 
-	@PostMapping("/posts/period")
-	public Iterable<PostDto> findPostsByPeriod(@RequestBody PeriodDto period) {
-		return forumService.findPostsByPeriod(period);
+	@GetMapping("/posts/period")
+	public Iterable<PostDto> findPostsByPeriod(@RequestParam LocalDate dateFrom,@RequestParam LocalDate dateTo) {
+		return forumService.findPostsByPeriod(new PeriodDto(dateFrom, dateTo));
 	}
 
 	@PutMapping("post/{postId}")
